@@ -23,3 +23,16 @@ console.log('✅Connected to RabbitMQ');
     }
 
 }
+ 
+export const getRabbitMQChannel = async () => {{
+    if (!channel) {
+        throw new Error('RabbitMQ channel is not initialized. Call connectRabbitMQ first.');
+    }   return channel;
+
+    await channel.assertQueue('user_queue', { durable: true });
+
+    channel.sendToQueue('user_queue', Buffer.from(JSON.stringify({ message: 'Hello from User Service!' })), 
+    { persistent: true });
+}}
+
+
