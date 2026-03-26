@@ -4,13 +4,16 @@ dotenv.config();
 import express from 'express';
 import connectDb from './config/db';
 import { createClient } from 'redis';
-import userRoutes from './routes/user.js';
+import userRoutes from './routes/user';
+import { connectRabbitMQ } from './config/rabbitmq';
 
 const app = express();
 app.use(express.json());
 app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 5000;
+
+connectRabbitMQ();
 
 async function startServer() {
     try {
